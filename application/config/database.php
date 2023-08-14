@@ -15,7 +15,7 @@ $db['default'] = array(
 	// 'username' => 'makeu1orldandfa_admin1',
   	// 'password' => '3,T@MwkL^GRd',
   	// 'database' => 'makeu1orldandfa_possoft',
-
+	
 		
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
