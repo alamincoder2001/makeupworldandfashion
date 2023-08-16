@@ -184,7 +184,6 @@ class Products extends CI_Controller {
             left join tbl_brand br on br.brand_SiNo = p.brand
             left join tbl_unit u on u.Unit_SlNo = p.Unit_ID
             where p.status = 'a'
-            and p.Product_branchid = '$this->brunch'
             $clauses
             order by p.Product_SlNo desc
         ")->result();

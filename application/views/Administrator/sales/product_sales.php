@@ -227,7 +227,9 @@
 							<td>{{ product.productCode }}</td>
 							<td>{{ product.name }}</td>
 							<td>{{ product.categoryName }}</td>
-							<td>{{ product.quantity }}</td>
+							<td>
+								<input type="number" min="1" style="width: 60px;" class="form-control" v-model="product.quantity" @input="quantityUpdate(event, sl)">
+							</td>
 							<td>{{ product.salesRate }}</td>
 							<td>{{ product.total }}</td>
 							<td>
@@ -639,6 +641,26 @@
 				this.cart.unshift(product);
 				this.clearProduct();
 				this.calculateTotal();
+			},
+			async quantityUpdate(event, ind) {
+				let productStock = await axios.post('/get_product_stock', {
+					productId: this.cart[ind].productId
+				}).then(res => {
+					return res.data;
+				});
+				if (parseFloat(event.target.value) > parseFloat(productStock)) {
+					alert("Stock unavailable");
+					this.cart[ind].quantity = productStock
+					this.cart[ind].total = parseFloat(parseFloat(this.cart[ind].salesRate) * parseFloat(this.cart[ind].quantity)).toFixed(2);
+					this.calculateTotal();
+					return
+				}
+				this.cart.map(prod => {
+					prod.total = parseFloat(parseFloat(prod.salesRate) * parseFloat(prod.quantity)).toFixed(2);
+					return prod;
+				})
+				this.calculateTotal();
+
 			},
 			removeFromCart(ind) {
 				this.cart.splice(ind, 1);
